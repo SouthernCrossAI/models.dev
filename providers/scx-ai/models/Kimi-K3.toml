@@ -1,13 +1,14 @@
-# SCX enforces a single context budget (prompt + max_tokens <= context) with no
-# separate output cap, so output equals the 1048576 context and is overridden
-# from the moonshotai/kimi-k3 base entry. Thinking is returned as
-# `reasoning_content` on the message. Effort set matches the lab entry and
-# DeepInfra (low/high/max), not verified against SCX.
+# SCX accepts max_tokens=1048576 (200 OK on a short prompt), so output is
+# overridden from the moonshotai/kimi-k3 base entry (131072). Thinking is returned
+# as `reasoning_content` on the message. `none` turns thinking off (no reasoning
+# returned, n=3), and so do the thinking-disable params. Effort is none plus the
+# lab's low/high/max; minimal, medium and xhigh are accepted but not clearly
+# distinct at n=3.
 schema = 2
 base_model = "moonshotai/kimi-k3"
 
 [capabilities]
-reasoning = { supported = true, effort = ["low", "high", "max"] }
+reasoning = { supported = true, effort = ["none", "low", "high", "max"] }
 structured_output = true
 
 [limit]
