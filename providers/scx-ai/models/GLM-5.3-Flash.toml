@@ -1,0 +1,23 @@
+# Context is 1048576 on this deployment (1M + 1 token), so limit.context is
+# overridden from the zhipuai/glm-5.3-flash base entry. Thinking is returned as
+# `reasoning_content` on the message; GLM-5.3-Flash always thinks, so `none` is
+# not offered and the effort set is low/high/max.
+schema = 2
+base_model = "zhipuai/glm-5.3-flash"
+
+[capabilities]
+reasoning = { supported = true, effort = ["low", "high", "max"] }
+structured_output = true
+
+[limit]
+context = 1_048_576
+
+[api.chat-completions]
+compatibility = { reasoning_field = "reasoning_content" }
+
+[cost.text.input]
+price = 0.1248
+cache = { read = 0.0250 }
+
+[cost.text.output]
+price = 0.3745

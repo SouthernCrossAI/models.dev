@@ -1,0 +1,24 @@
+# This deployment rejects max_tokens above 128000, below the 131072 inherited
+# from the zhipuai/glm-5.3 base entry, so limit.output is overridden. Thinking
+# is returned as `reasoning_content` on the message; GLM-5.3 always thinks and
+# rejects attempts to disable it, so `none` is not offered and the effort set is
+# low/high/max.
+schema = 2
+base_model = "zhipuai/glm-5.3"
+
+[capabilities]
+reasoning = { supported = true, effort = ["low", "high", "max"] }
+structured_output = true
+
+[limit]
+output = 128_000
+
+[api.chat-completions]
+compatibility = { reasoning_field = "reasoning_content" }
+
+[cost.text.input]
+price = 0.9799
+cache = { read = 0.1810 }
+
+[cost.text.output]
+price = 3.0770
